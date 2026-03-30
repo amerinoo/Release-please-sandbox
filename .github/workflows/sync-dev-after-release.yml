@@ -39,4 +39,10 @@ jobs:
           git commit -m "chore: sync dev manifest with main release ${{ steps.version.outputs.version }}"
           git push origin dev
 
+      - name: Create RC.0 tag
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          git tag "${VERSION}-RC.0"
+          git push origin "${VERSION}-RC.0"
+
 # Made with Bob

@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.5.1](https://github.com/amerinoo/Release-please-sandbox/compare/v1.5.0...v1.5.1) (2026-03-30)
+
+
+### Bug Fixes
+
+* add condition to deploy job to only run when release is created ([e15ab70](https://github.com/amerinoo/Release-please-sandbox/commit/e15ab70c37d839d7b5a470fcf96e10916ec570ea))
+* add debug output in release-please job to see step outputs ([0038aea](https://github.com/amerinoo/Release-please-sandbox/commit/0038aeacd9baed2ee1f95786ae57400fd99ea5a7))
+* add debug output to see all release-please outputs ([b3cd2b0](https://github.com/amerinoo/Release-please-sandbox/commit/b3cd2b04e654a06e1473fdc122c8c2a734c5eca1))
+* improve outputs handling and add proper condition for deploy ([ccad1c2](https://github.com/amerinoo/Release-please-sandbox/commit/ccad1c26f532e4353269eba96b9f3c0e739b168f))
+* remove CI-friendly version pattern to work with maven release-type ([138ca33](https://github.com/amerinoo/Release-please-sandbox/commit/138ca33daeb50dab72a8751e613598c37b4f8538))
+* remove toJSON to avoid bash syntax error ([ec7eda8](https://github.com/amerinoo/Release-please-sandbox/commit/ec7eda8bd05f5814dd74998645c0c050ff0c36f8))
+* restore CI-friendly version and change release-type to java ([7f8fdd2](https://github.com/amerinoo/Release-please-sandbox/commit/7f8fdd2767bd26ab5c4d129276dd18f2f72e6b87))
+* update release-please configuration and pom version ([9edef14](https://github.com/amerinoo/Release-please-sandbox/commit/9edef14f9be8defcd6d9137909f0f947767e6ccd))
+* update release-please workflow ([2ca58a8](https://github.com/amerinoo/Release-please-sandbox/commit/2ca58a82dbedb6b9262bc126c78280ed38caff6b))
+* use env vars to avoid bash syntax errors with special characters ([8f8468c](https://github.com/amerinoo/Release-please-sandbox/commit/8f8468ccf82778b56a846e2273f6a2611246c82a))
+
 ## [1.5.0](https://github.com/amerinoo/Release-please-sandbox/compare/v1.4.0...v1.5.0) (2026-03-30)
 
 

@@ -24,11 +24,11 @@ jobs:
           VERSION="${{ github.event.release.tag_name }}"
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
 
-      - name: Update dev manifest to released version
+      - name: Update dev manifest with RC.0
         run: |
           VERSION="${{ steps.version.outputs.version }}"
           echo "{
-            \".\": \"${VERSION}\"
+            \".\": \"${VERSION}-RC.0\"
           }" > .release-please-manifest-dev.json
 
       - name: Commit and push

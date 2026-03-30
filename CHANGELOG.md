@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0-rc.2](https://github.com/amerinoo/Release-please-sandbox/compare/1.0.0-rc.1...1.0.0-rc.2) (2026-03-30)
+
+
+### Features
+
+* add additional test for RC versioning ([00f6f31](https://github.com/amerinoo/Release-please-sandbox/commit/00f6f31d4a9bf562cd531ebd3f51cf261d718d7c))
+* test RC versioning after first release ([239918c](https://github.com/amerinoo/Release-please-sandbox/commit/239918cea413661facca78be2d958c3c4094e7f6))
+
+
+### Bug Fixes
+
+* add prerelease flag to config ([bcc7bdc](https://github.com/amerinoo/Release-please-sandbox/commit/bcc7bdc5d2eb7284c42a4c57ac24f5b59005df59))
+* add skip-snapshot to remove SNAPSHOT suffix ([78c1377](https://github.com/amerinoo/Release-please-sandbox/commit/78c13779aeb63cd7c899745d77941b040926278a))
+
 ## [1.0.0-rc.1](https://github.com/amerinoo/Release-please-sandbox/compare/1.0.0-rc.0...1.0.0-rc.1) (2026-03-30)
 
 

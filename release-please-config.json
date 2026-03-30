@@ -3,9 +3,7 @@
   "packages": {
     ".": {
       "release-type": "maven",
-      "versioning": "prerelease",
       "prerelease": true,
-      "prerelease-type": "RC",
       "skip-snapshot": true,
       "include-v-in-tag": false,
       "changelog-sections": [

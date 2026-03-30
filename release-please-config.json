@@ -3,7 +3,7 @@
   "packages": {
     ".": {
       "release-type": "maven",
-      "versioning": "always-bump-patch",
+      "versioning": "prerelease",
       "prerelease": true,
       "prerelease-type": "RC",
       "skip-snapshot": true,

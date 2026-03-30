@@ -2,13 +2,13 @@
 <project>
   <groupId>com.google.example</groupId>
   <artifactId>maven4</artifactId>
-  <version>4.4.4</version>
+  <version>1.1.0-RC.1</version>
 
   <dependencies>
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
-      <version></version>
+      <version/>
     </dependency>
     <dependency>
       <groupId>com.google.example</groupId>

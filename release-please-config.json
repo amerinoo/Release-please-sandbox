@@ -4,14 +4,7 @@
   "packages": {
     ".": {
       "release-type": "maven",
-      "skip-snapshot": true,
-      "extra-files": [
-        {
-          "type": "xml",
-          "path": "pom.xml",
-          "xpath": "//*[local-name()='project']/*[local-name()='properties']/*[local-name()='revision']"
-        }
-      ]
+      "skip-snapshot": true
     }
   }
 }

@@ -1,3 +1,0 @@
-feat: some feature
-
-fix: some bugfix

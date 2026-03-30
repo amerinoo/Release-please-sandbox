@@ -67,8 +67,9 @@ jobs:
       - name: Deploy
         if: ${{ needs.release-please.outputs.release_created == 'true' }}
         run: |
-          TAG=${{ needs.release-please.outputs.tag_name }}
-          VERSION=${TAG#v}
+          TAG="${{ needs.release-please.outputs.tag_name }}"
+          VERSION="${TAG#v}"
           echo "=== PROD DEPLOY ==="
-          echo "Deploying version: ${{ VERSION }}"
+          echo "Deploying version: ${VERSION}"
+          echo "Tag: ${TAG}"
           echo "This only runs when the Release Please PR is MERGED and a release is created"

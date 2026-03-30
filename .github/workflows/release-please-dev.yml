@@ -1,23 +1,28 @@
 on:
   push:
     branches:
-      - main
+      - dev
 
 permissions:
   contents: write
   issues: write
   pull-requests: write
 
-name: release-please
+name: release-please-dev
 
 jobs:
-  release-please:
+  release-please-dev:
     runs-on: ubuntu-latest
     steps:
       - uses: googleapis/release-please-action@v4
         with:
           token: ${{ secrets.MY_RELEASE_PLEASE_TOKEN }}
           release-type: maven
+          # Configuración para release candidates
+          prerelease: true
+          prerelease-type: rc
           # Usar archivos de configuración
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
+
+# Made with Bob

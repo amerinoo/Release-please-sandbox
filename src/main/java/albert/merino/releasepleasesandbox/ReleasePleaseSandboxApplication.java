@@ -10,4 +10,8 @@ public class ReleasePleaseSandboxApplication {
     SpringApplication.run(ReleasePleaseSandboxApplication.class, args);
   }
 
+  private void test() {
+
+  }
+
 }

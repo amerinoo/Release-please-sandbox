@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0-RC.3](https://github.com/amerinoo/Release-please-sandbox/compare/1.0.0-RC.2...1.0.0-RC.3) (2026-03-30)
+
+
+### Features
+
+* test uppercase RC versioning ([c417261](https://github.com/amerinoo/Release-please-sandbox/commit/c417261df54a2c1943d7e1e5af47eda53f5b68de))
+
 ## [1.0.0-RC.2](https://github.com/amerinoo/Release-please-sandbox/compare/1.0.0-RC.1...1.0.0-RC.2) (2026-03-30)
 
 

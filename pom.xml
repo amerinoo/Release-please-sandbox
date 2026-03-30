@@ -9,7 +9,7 @@
   </parent>
   <groupId>albert.merino</groupId>
   <artifactId>release-please-sandbox</artifactId>
-  <version>1.0.0-RC.2</version>
+  <version>1.0.0-RC.3</version>
   <name>Release Please Sandbox</name>
   <description>Release Please Sandbox</description>
   <url/>

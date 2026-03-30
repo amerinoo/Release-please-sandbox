@@ -5,6 +5,7 @@
     ".": {
       "release-type": "java",
       "skip-snapshot": true,
+      "include-v": false,
       "extra-files": [
         {
           "type": "xml",

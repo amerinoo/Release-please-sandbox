@@ -4,7 +4,7 @@
   "packages": {
     ".": {
       "release-type": "java",
-      "versioning-strategy": "prerelease",
+      "versioning-strategy": "default",
       "prerelease": true,
       "prerelease-type": "RC",
       "skip-snapshot": true,

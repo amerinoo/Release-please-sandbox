@@ -24,11 +24,11 @@ jobs:
           VERSION="${{ github.event.release.tag_name }}"
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
 
-      - name: Update dev manifest
+      - name: Update dev manifest to released version
         run: |
           VERSION="${{ steps.version.outputs.version }}"
           echo "{
-            \".\": \"${VERSION}-RC.0\"
+            \".\": \"${VERSION}\"
           }" > .release-please-manifest-dev.json
 
       - name: Commit and push
@@ -38,11 +38,5 @@ jobs:
           git add .release-please-manifest-dev.json
           git commit -m "chore: sync dev manifest with main release ${{ steps.version.outputs.version }}"
           git push origin dev
-
-      - name: Create RC.0 tag
-        run: |
-          VERSION="${{ steps.version.outputs.version }}"
-          git tag "${VERSION}-RC.0"
-          git push origin "${VERSION}-RC.0"
 
 # Made with Bob

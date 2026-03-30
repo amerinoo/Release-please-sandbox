@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.5.3](https://github.com/amerinoo/Release-please-sandbox/compare/v1.5.2...v1.5.3) (2026-03-30)
+
+
+### Bug Fixes
+
+* correct variable interpolation in deploy step ([b89965e](https://github.com/amerinoo/Release-please-sandbox/commit/b89965ef155e2fb576e7097f3884e766f0173028))
+* update release-please workflow ([98b525c](https://github.com/amerinoo/Release-please-sandbox/commit/98b525c1de287635e5f7ca089600ea728a082473))
+
 ## [1.5.2](https://github.com/amerinoo/Release-please-sandbox/compare/v1.5.1...v1.5.2) (2026-03-30)
 
 

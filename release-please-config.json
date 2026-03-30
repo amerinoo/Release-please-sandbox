@@ -4,6 +4,7 @@
     ".": {
       "release-type": "maven",
       "versioning": "prerelease",
+      "prerelease": true,
       "prerelease-type": "RC",
       "include-v-in-tag": false,
       "bump-minor-pre-major": true,

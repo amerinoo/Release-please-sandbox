@@ -18,6 +18,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           release-type: maven
+          target-branch: dev
           prerelease: true
           prerelease-type: rc
           config-file: release-please-config.json

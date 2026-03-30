@@ -20,6 +20,7 @@ jobs:
           token: ${{ secrets.MY_RELEASE_PLEASE_TOKEN }}
           # Prerelease (-rc.x) solo si estamos en la rama dev
           prerelease: ${{ github.ref_name == 'dev' }}
+          prerelease-type: "RC"
           release-type: maven
           target-branch: ${{ github.ref_name }}
           skip-snapshot: true

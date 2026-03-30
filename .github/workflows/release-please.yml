@@ -1,14 +1,14 @@
+name: release-please
+
 on:
   push:
     branches:
       - main
+      - dev
 
 permissions:
   contents: write
-  issues: write
   pull-requests: write
-
-name: release-please
 
 jobs:
   release-please:
@@ -16,6 +16,9 @@ jobs:
     steps:
       - uses: googleapis/release-please-action@v4
         with:
+          # Usamos tu token personalizado para disparar otros workflows si es necesario
           token: ${{ secrets.MY_RELEASE_PLEASE_TOKEN }}
-          config-file: release-please-config-main.json
-          manifest-file: .release-please-manifest.json
+          # Prerelease (-rc.x) solo si estamos en la rama dev
+          prerelease: ${{ github.ref_name == 'dev' }}
+          release-type: maven
+          target-branch: ${{ github.ref_name }}

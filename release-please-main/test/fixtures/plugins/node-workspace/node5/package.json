@@ -1,8 +1,0 @@
-{
-  "name": "@here/pkgE",
-  "version": "1.0.0",
-  "dependencies": {
-    "@here/pkgA": "workspace:^",
-    "anotherExternal": "^4.3.1"
-  }
-}

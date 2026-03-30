@@ -1,5 +1,0 @@
-feat: some feature
-
-extended body
-
-BREAKING CHANGE: this is actually a breaking change

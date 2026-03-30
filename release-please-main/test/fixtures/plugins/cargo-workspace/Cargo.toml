@@ -1,2 +1,0 @@
-[workspace]
-members = ["packages/rustA", "packages/rustB", "packages/rustC", "packages/rustD", "packages/rustE"]

@@ -3,18 +3,8 @@
 
   "packages": {
     ".": {
-      "release-type": "java",
-      "versioning-strategy": "default",
-      "prerelease": true,
-      "prerelease-type": "RC",
-      "skip-snapshot": true,
-      "extra-files": [
-        {
-          "type": "xml",
-          "path": "pom.xml",
-          "xpath": "/*[local-name()='project']/*[local-name()='version']"
-        }
-      ]
+      "release-type": "maven",
+      "skip-snapshot": true
     }
   }
 }

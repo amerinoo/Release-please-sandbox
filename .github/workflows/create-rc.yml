@@ -1,0 +1,51 @@
+name: Create RC (debug)
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "RC version, e.g. 1.8.0-RC1"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  create-rc:
+    runs-on: ubuntu-latest
+    environment: beta
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Debug inputs
+        run: |
+          echo "=== INPUTS ==="
+          echo "Version: ${{ inputs.version }}"
+          echo "Branch: ${{ github.ref_name }}"
+          echo "SHA: ${{ github.sha }}"
+          echo "Run number: ${{ github.run_number }}"
+
+      - name: Simulate Maven version change
+        run: |
+          echo "=== MAVEN ==="
+          echo "Would run:"
+          echo "mvn versions:set -DnewVersion=${{ inputs.version }}"
+
+      - name: Simulate build
+        run: |
+          echo "=== BUILD ==="
+          echo "Would run: mvn clean package -DskipTests"
+
+      - name: Simulate Docker tags
+        run: |
+          echo "=== DOCKER TAGS ==="
+          echo "beta"
+          echo "${{ inputs.version }}"
+          echo "beta-${GITHUB_SHA::7}"
+
+      - name: Simulate push
+        run: |
+          echo "=== PUSH ==="
+          echo "Would push image with above tags"

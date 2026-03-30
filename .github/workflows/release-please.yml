@@ -24,4 +24,3 @@ jobs:
           release-type: maven
           target-branch: ${{ github.ref_name }}
           skip-snapshot: true
-          bootstrap-sha: "2d662fb1e485a4133843dd91af47d10a2981b15e"

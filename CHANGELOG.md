@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0-RC.2](https://github.com/amerinoo/Release-please-sandbox/compare/1.1.0-RC.1...1.1.0-RC.2) (2026-03-30)
+
+
+### Bug Fixes
+
+* reset manifest to 1.0.0 to generate correct 1.1.0 release ([3e407cb](https://github.com/amerinoo/Release-please-sandbox/commit/3e407cb2368aeee9de5087e61fd3a90139205479))
+* test RC iteration increment ([8f27b10](https://github.com/amerinoo/Release-please-sandbox/commit/8f27b10eb988badbc09ee824e13ff0707fb521a8))
+
+
+### Miscellaneous Chores
+
+* add release-please-main to gitignore ([1d7bed5](https://github.com/amerinoo/Release-please-sandbox/commit/1d7bed5bce8ee888959707dacbd45d08c6defd66))
+
 ## [1.1.0-RC.1](https://github.com/amerinoo/Release-please-sandbox/compare/1.1.0-RC.0...1.1.0-RC.1) (2026-03-30)
 
 

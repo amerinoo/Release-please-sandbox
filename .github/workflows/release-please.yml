@@ -23,7 +23,8 @@ jobs:
         with:
           token: ${{ secrets.MY_RELEASE_PLEASE_TOKEN }}
           target-branch: main
-  ddeployv:
+  deploy:
+    needs: release-please
     runs-on: ubuntu-latest
 
     steps:

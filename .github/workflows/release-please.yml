@@ -22,3 +22,4 @@ jobs:
           prerelease: ${{ github.ref_name == 'dev' }}
           release-type: maven
           target-branch: ${{ github.ref_name }}
+          skip-snapshot: true

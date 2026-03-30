@@ -26,13 +26,20 @@ jobs:
   deploy:
     needs: release-please
     runs-on: ubuntu-latest
-    if: ${{ needs.release-please.outputs.release_created }}
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Deploy
+      - name: Show Release Please Outputs
         run: |
-          echo "=== PROD DEPLOY ==="
+          echo "=== RELEASE PLEASE OUTPUTS ==="
           echo "release_created: ${{ needs.release-please.outputs.release_created }}"
           echo "tag_name: ${{ needs.release-please.outputs.tag_name }}"
+          echo "All outputs from release-please job:"
+          echo "${{ toJSON(needs.release-please.outputs) }}"
+
+      - name: Deploy
+        if: ${{ needs.release-please.outputs.release_created }}
+        run: |
+          echo "=== PROD DEPLOY ==="
+          echo "Deploying version: ${{ needs.release-please.outputs.tag_name }}"

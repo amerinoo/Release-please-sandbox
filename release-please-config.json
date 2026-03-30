@@ -1,12 +1,20 @@
 {
+  "bootstrap-sha": "2d662fb1e485a4133843dd91af47d10a2981b15e",
+
   "packages": {
     ".": {
-      "bootstrap-sha": "2d662fb1e485a4133843dd91af47d10a2981b15e",
-      "release-type": "maven",
-      "versioning": "prerelease",
+      "release-type": "java",
+      "versioning-strategy": "prerelease",
       "prerelease": true,
       "prerelease-type": "RC",
-      "skip-snapshot": true
+      "skip-snapshot": true,
+      "extra-files": [
+        {
+          "type": "xml",
+          "path": "pom.xml",
+          "xpath": "/*[local-name()='project']/*[local-name()='version']"
+        }
+      ]
     }
   }
 }

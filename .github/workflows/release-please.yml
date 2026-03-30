@@ -24,14 +24,21 @@ jobs:
           token: ${{ secrets.MY_RELEASE_PLEASE_TOKEN }}
 
       - name: Debug Release Please Step Outputs
+        env:
+          RELEASE_CREATED: ${{ steps.release.outputs.release_created }}
+          TAG_NAME: ${{ steps.release.outputs.tag_name }}
+          PR: ${{ steps.release.outputs.pr }}
+          PRS_CREATED: ${{ steps.release.outputs.prs_created }}
+          PATHS_RELEASED: ${{ steps.release.outputs.paths_released }}
+          RELEASES_CREATED: ${{ steps.release.outputs.releases_created }}
         run: |
           echo "=== RELEASE PLEASE STEP OUTPUTS ==="
-          echo "release_created: ${{ steps.release.outputs.release_created }}"
-          echo "tag_name: ${{ steps.release.outputs.tag_name }}"
-          echo "pr: ${{ steps.release.outputs.pr }}"
-          echo "prs_created: ${{ steps.release.outputs.prs_created }}"
-          echo "paths_released: ${{ steps.release.outputs.paths_released }}"
-          echo "releases_created: ${{ steps.release.outputs.releases_created }}"
+          echo "release_created: ${RELEASE_CREATED}"
+          echo "tag_name: ${TAG_NAME}"
+          echo "pr: ${PR}"
+          echo "prs_created: ${PRS_CREATED}"
+          echo "paths_released: ${PATHS_RELEASED}"
+          echo "releases_created: ${RELEASES_CREATED}"
   deploy:
     needs: release-please
     runs-on: ubuntu-latest

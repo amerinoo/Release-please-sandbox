@@ -30,8 +30,8 @@ jobs:
           echo "tag_name: ${{ steps.release.outputs.tag_name }}"
           echo "pr: ${{ steps.release.outputs.pr }}"
           echo "prs_created: ${{ steps.release.outputs.prs_created }}"
-          echo "All step outputs:"
-          echo '${{ toJSON(steps.release.outputs) }}'
+          echo "paths_released: ${{ steps.release.outputs.paths_released }}"
+          echo "releases_created: ${{ steps.release.outputs.releases_created }}"
   deploy:
     needs: release-please
     runs-on: ubuntu-latest

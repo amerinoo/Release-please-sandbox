@@ -22,7 +22,16 @@ jobs:
         id: release
         with:
           token: ${{ secrets.MY_RELEASE_PLEASE_TOKEN }}
-          target-branch: main
+
+      - name: Debug Release Please Step Outputs
+        run: |
+          echo "=== RELEASE PLEASE STEP OUTPUTS ==="
+          echo "release_created: ${{ steps.release.outputs.release_created }}"
+          echo "tag_name: ${{ steps.release.outputs.tag_name }}"
+          echo "pr: ${{ steps.release.outputs.pr }}"
+          echo "prs_created: ${{ steps.release.outputs.prs_created }}"
+          echo "All step outputs:"
+          echo '${{ toJSON(steps.release.outputs) }}'
   deploy:
     needs: release-please
     runs-on: ubuntu-latest

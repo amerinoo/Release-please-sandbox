@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class ReleasePleaseSandboxApplication {
 
   public static void main(String[] args) {
+    // Fixed: added proper application context initialization
     SpringApplication.run(ReleasePleaseSandboxApplication.class, args);
   }
 

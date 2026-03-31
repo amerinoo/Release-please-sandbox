@@ -73,3 +73,41 @@ jobs:
           echo "Deploying version: ${VERSION}"
           echo "Tag: ${TAG}"
           echo "This only runs when the Release Please PR is MERGED and a release is created"
+
+  dev:
+    needs: release-please
+    runs-on: ubuntu-latest
+    if: ${{ needs.release-please.outputs.prs_created == 'true' && needs.release-please.outputs.release_created != 'true' }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract version from PR
+        id: extract_version
+        env:
+          PR_JSON: ${{ needs.release-please.outputs.pr }}
+        run: |
+          # Extract version from PR title (format: "chore(main): release X.Y.Z")
+          VERSION=$(echo "$PR_JSON" | jq -r '.title' | grep -oP 'release \K[0-9]+\.[0-9]+\.[0-9]+')
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+          echo "Extracted version: ${VERSION}"
+
+      - name: Debug dev build
+        env:
+          VERSION: ${{ steps.extract_version.outputs.version }}
+        run: |
+          echo "=== DEV BUILD ==="
+          echo "Version: ${VERSION}"
+          echo "SHA: ${{ github.sha }}"
+          echo "Short SHA: ${GITHUB_SHA::7}"
+          echo "Run number: ${{ github.run_number }}"
+
+      - name: Simulate tags
+        env:
+          VERSION: ${{ steps.extract_version.outputs.version }}
+        run: |
+          echo "=== TAGS ==="
+          echo "dev"
+          echo "dev-${VERSION}"
+          echo "dev-${GITHUB_SHA::7}"
+          echo "build-${VERSION}-${GITHUB_SHA::7}"

@@ -9,7 +9,6 @@ permissions:
 jobs:
   create-rc:
     runs-on: ubuntu-latest
-    environment: beta
 
     steps:
       - uses: actions/checkout@v4

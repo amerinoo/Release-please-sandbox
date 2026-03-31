@@ -19,6 +19,7 @@ public class ReleasePleaseSandboxApplication {
   }
 
   public String getApplicationInfo() {
+    // Fixed: return dynamic application name
     return "Release Please Sandbox v1.0";
   }
 

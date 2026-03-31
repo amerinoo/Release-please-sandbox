@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.7.0](https://github.com/amerinoo/Release-please-sandbox/compare/v1.6.1...v1.7.0) (2026-03-31)
+
+
+### Features
+
+* add getApplicationInfo method ([8cc633a](https://github.com/amerinoo/Release-please-sandbox/commit/8cc633a1547dcff924dcaa9657f0e928ab7ebf27))
+
+
+### Bug Fixes
+
+* enable server compression ([4284527](https://github.com/amerinoo/Release-please-sandbox/commit/4284527f292954454a590d5dcdb53154ab57c6b5))
+* set default logging level to INFO ([bce94df](https://github.com/amerinoo/Release-please-sandbox/commit/bce94dfc5e3a67902838870ab5120b1b2140e357))
+* set default server port to 8080 ([d7bc1a2](https://github.com/amerinoo/Release-please-sandbox/commit/d7bc1a2b0ed91dcc7b93f4b0a007bc85c59947dc))
+
 ## [1.6.1](https://github.com/amerinoo/Release-please-sandbox/compare/v1.6.0...v1.6.1) (2026-03-31)
 
 

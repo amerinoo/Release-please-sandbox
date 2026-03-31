@@ -3,10 +3,11 @@ name: Create RC
 on:
   workflow_dispatch:
     inputs:
-      version:
-        description: "RC version (e.g., 1.8.0-RC.1)"
-        required: true
+      rc_suffix:
+        description: "RC suffix (e.g., RC.1, RC.2)"
+        required: false
         type: string
+        default: "RC.1"
 
 permissions:
   contents: read
@@ -19,17 +20,41 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Get version from Release Please PR
+        id: get_version
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Get the open Release Please PR
+          PR_NUMBER=$(gh pr list --label "autorelease: pending" --json number --jq '.[0].number')
+          if [ -n "$PR_NUMBER" ]; then
+            # Get the branch name and checkout
+            PR_BRANCH=$(gh pr view $PR_NUMBER --json headRefName --jq '.headRefName')
+            git fetch origin $PR_BRANCH
+            git checkout $PR_BRANCH
+            # Get version from manifest
+            BASE_VERSION=$(jq -r '."."' .release-please-manifest.json)
+            RC_VERSION="${BASE_VERSION}-${{ inputs.rc_suffix }}"
+            echo "base_version=${BASE_VERSION}" >> $GITHUB_OUTPUT
+            echo "rc_version=${RC_VERSION}" >> $GITHUB_OUTPUT
+            echo "Found Release Please PR with version: ${BASE_VERSION}"
+          else
+            echo "No Release Please PR found, using manual input"
+            exit 1
+          fi
+
       - name: Build RC version
         run: |
           echo "=== RC BUILD ==="
-          echo "Version: ${{ inputs.version }}"
+          echo "Base version: ${{ steps.get_version.outputs.base_version }}"
+          echo "RC version: ${{ steps.get_version.outputs.rc_version }}"
           echo "Branch: ${{ github.ref_name }}"
           echo "SHA: ${GITHUB_SHA::7}"
           echo ""
           echo "Maven build command:"
-          echo "mvn clean package -Drevision=${{ inputs.version }}"
+          echo "mvn clean package -Drevision=${{ steps.get_version.outputs.rc_version }}"
           echo ""
           echo "Docker tags:"
           echo "  - beta"
-          echo "  - ${{ inputs.version }}"
+          echo "  - ${{ steps.get_version.outputs.rc_version }}"
           echo "  - beta-${GITHUB_SHA::7}"

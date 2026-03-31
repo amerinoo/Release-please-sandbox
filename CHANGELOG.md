@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.6.1](https://github.com/amerinoo/Release-please-sandbox/compare/v1.6.0...v1.6.1) (2026-03-31)
+
+
+### Bug Fixes
+
+* add debug output to test method ([7f97da1](https://github.com/amerinoo/Release-please-sandbox/commit/7f97da1ad0290e77cb8f40d5b5a729865b510e4e))
+* improve application context initialization ([bd85d0a](https://github.com/amerinoo/Release-please-sandbox/commit/bd85d0aa5ce3a8a7bf29414e8662ab1e552092a6))
+
 ## [1.6.0](https://github.com/amerinoo/Release-please-sandbox/compare/v1.5.3...v1.6.0) (2026-03-31)
 
 

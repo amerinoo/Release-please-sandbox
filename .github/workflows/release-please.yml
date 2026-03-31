@@ -53,9 +53,29 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Get Release Please PR
+        id: get_pr
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # Get the open Release Please PR
+          PR_NUMBER=$(gh pr list --label "autorelease: pending" --json number --jq '.[0].number')
+          if [ -n "$PR_NUMBER" ]; then
+            echo "pr_number=${PR_NUMBER}" >> $GITHUB_OUTPUT
+            # Get the branch name
+            PR_BRANCH=$(gh pr view $PR_NUMBER --json headRefName --jq '.headRefName')
+            echo "pr_branch=${PR_BRANCH}" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Checkout PR branch
+        if: steps.get_pr.outputs.pr_branch != ''
+        run: |
+          git fetch origin ${{ steps.get_pr.outputs.pr_branch }}
+          git checkout ${{ steps.get_pr.outputs.pr_branch }}
+
       - name: Build dev version
         run: |
-          # Get version from manifest file
+          # Get version from manifest file (from PR branch if available)
           VERSION=$(jq -r '."."' .release-please-manifest.json)
           echo "=== DEV BUILD ==="
           echo "Version from manifest: ${VERSION}"

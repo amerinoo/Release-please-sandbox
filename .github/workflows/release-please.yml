@@ -42,7 +42,7 @@ jobs:
   dev:
     needs: release-please
     runs-on: ubuntu-latest
-    if: ${{ needs.release-please.outputs.release_created != 'true' }}
+    if: ${{ needs.release-please.outputs.release_created != 'true' && needs.release-please.outputs.pr != '' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -50,7 +50,7 @@ jobs:
         env:
           PR_JSON: ${{ needs.release-please.outputs.pr }}
         run: |
-          VERSION=$(echo "$PR_JSON" | jq -r '.title' | grep -oP 'release \K[0-9]+\.[0-9]+\.[0-9]+')
+          VERSION=$(echo "$PR_JSON" | jq -r '.title' | grep -oP 'release \K[0-9]+\.[0-9]+\.[0-9]+' || echo "0.0.0")
           echo "=== DEV BUILD ==="
           echo "Version: ${VERSION}"
           echo "SHA: ${GITHUB_SHA::7}"

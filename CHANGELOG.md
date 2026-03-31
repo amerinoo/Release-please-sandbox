@@ -1,5 +1,31 @@
 # Changelog
 
+## [1.6.0](https://github.com/amerinoo/Release-please-sandbox/compare/v1.5.3...v1.6.0) (2026-03-31)
+
+
+### Features
+
+* add maven package command for dev builds ([b9cd2f0](https://github.com/amerinoo/Release-please-sandbox/commit/b9cd2f0421cf67a2cee70e8b39fd91f599b4672b))
+* add Release Information section to RC notes ([d370d5f](https://github.com/amerinoo/Release-please-sandbox/commit/d370d5fdb34f3f5c23aa3613563fc9d4ad80456e))
+* auto-calculate RC number from existing prereleases ([8cbddef](https://github.com/amerinoo/Release-please-sandbox/commit/8cbddefdb5949620d58a7fd2c4a5a558803f7cdd))
+* auto-detect version from Release Please PR for RC builds ([d858165](https://github.com/amerinoo/Release-please-sandbox/commit/d8581656c4253de0e0ef48512f43c0f1acc55b43))
+* create GitHub prerelease when building RC ([1ad9c71](https://github.com/amerinoo/Release-please-sandbox/commit/1ad9c713384118337d16f829e520670d9efc96f0))
+* enable build and release steps for RC workflow ([140cba5](https://github.com/amerinoo/Release-please-sandbox/commit/140cba56598fee751e003efcffa30c026ce6f855))
+* extract version from PR for dev builds ([86241df](https://github.com/amerinoo/Release-please-sandbox/commit/86241dff325852a153f533e7cfc58854c3c5577b))
+* include Release Please PR changelog in RC release notes ([0accd0e](https://github.com/amerinoo/Release-please-sandbox/commit/0accd0e218d99c9f914b4bbc4188169d6c1e2a3b))
+
+
+### Bug Fixes
+
+* checkout PR branch to get updated manifest version ([86cb744](https://github.com/amerinoo/Release-please-sandbox/commit/86cb744d0116b521252932bdb5f949dea9613dae))
+* correct yaml syntax for if condition ([46c0cf2](https://github.com/amerinoo/Release-please-sandbox/commit/46c0cf2265074289ac29ee71608dd5ec8d6e270b))
+* get version from manifest file instead of PR output ([6cda50b](https://github.com/amerinoo/Release-please-sandbox/commit/6cda50b29cc93a19b2c09ab1c99379b00e7a6982))
+* handle empty PR in dev job ([82d5fcf](https://github.com/amerinoo/Release-please-sandbox/commit/82d5fcfd038a83c224385988ffdf15d5a82e49af))
+* properly expand RC_VERSION variable and filter changelog content ([f6a2e8b](https://github.com/amerinoo/Release-please-sandbox/commit/f6a2e8b5ac91b33d5be89c42c386a9572894f8ad))
+* skip dev-build workflow when merging release-please PR ([d816ddb](https://github.com/amerinoo/Release-please-sandbox/commit/d816ddbde9a259859c41adc71361257378130aef))
+* use calculated sum in test method ([d43990e](https://github.com/amerinoo/Release-please-sandbox/commit/d43990ef438e7926df8729057186d235695176c1))
+* use env vars in debug step to avoid bash syntax errors ([28d4fb1](https://github.com/amerinoo/Release-please-sandbox/commit/28d4fb12f41e82698ed77bc5bce2e8bf54eba84e))
+
 ## [1.5.3](https://github.com/amerinoo/Release-please-sandbox/compare/v1.5.2...v1.5.3) (2026-03-30)
 
 

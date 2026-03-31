@@ -10,7 +10,7 @@ on:
         default: "RC.1"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   create-rc:
@@ -20,7 +20,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build RC version
+      - name: Get RC version
+        id: get-version
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -35,20 +36,57 @@ jobs:
             BASE_VERSION=$(jq -r '."."' .release-please-manifest.json)
             RC_VERSION="${BASE_VERSION}-${{ inputs.rc_suffix }}"
             
-            echo "=== RC BUILD ==="
+            echo "base_version=${BASE_VERSION}" >> $GITHUB_OUTPUT
+            echo "rc_version=${RC_VERSION}" >> $GITHUB_OUTPUT
+            echo "pr_branch=${PR_BRANCH}" >> $GITHUB_OUTPUT
+            
+            echo "=== RC VERSION ==="
             echo "Base version: ${BASE_VERSION}"
             echo "RC version: ${RC_VERSION}"
-            echo "Branch: ${{ github.ref_name }}"
-            echo "SHA: ${GITHUB_SHA::7}"
-            echo ""
-            echo "Maven build command:"
-            echo "mvn clean package -Drevision=${RC_VERSION}"
-            echo ""
-            echo "Docker tags:"
-            echo "  - beta"
-            echo "  - ${RC_VERSION}"
-            echo "  - beta-${GITHUB_SHA::7}"
+            echo "Branch: ${PR_BRANCH}"
           else
             echo "ERROR: No Release Please PR found"
             exit 1
           fi
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: "21"
+          distribution: "temurin"
+          cache: maven
+
+      - name: Build with Maven
+        run: |
+          echo "Building RC version: ${{ steps.get-version.outputs.rc_version }}"
+          mvn clean package -Drevision=${{ steps.get-version.outputs.rc_version }}
+
+      - name: Create GitHub Release (Prerelease)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          RC_VERSION="${{ steps.get-version.outputs.rc_version }}"
+          TAG_NAME="v${RC_VERSION}"
+
+          # Create tag
+          git tag ${TAG_NAME}
+          git push origin ${TAG_NAME}
+
+          # Create prerelease
+          gh release create ${TAG_NAME} \
+            --title "Release Candidate ${RC_VERSION}" \
+            --notes "🚀 Release Candidate ${RC_VERSION}
+
+          This is a pre-release version for testing purposes.
+
+          **Base version:** ${{ steps.get-version.outputs.base_version }}
+          **RC suffix:** ${{ inputs.rc_suffix }}
+          **Branch:** ${{ steps.get-version.outputs.pr_branch }}
+          **Commit:** ${GITHUB_SHA::7}
+
+          ## Build Info
+          - Maven: \`mvn clean package -Drevision=${RC_VERSION}\`
+          - Docker tags: \`beta\`, \`${RC_VERSION}\`, \`beta-${GITHUB_SHA::7}\`
+          " \
+            --prerelease \
+            target/*.jar

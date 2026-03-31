@@ -49,24 +49,16 @@ jobs:
   dev:
     needs: release-please
     runs-on: ubuntu-latest
-    if: ${{ needs.release-please.outputs.release_created != 'true' && needs.release-please.outputs.pr != '' }}
+    if: ${{ needs.release-please.outputs.release_created != 'true' }}
     steps:
-      - name: Debug condition
-        run: |
-          echo "=== DEV JOB CONDITION CHECK ==="
-          echo "release_created: ${{ needs.release-please.outputs.release_created }}"
-          echo "pr: ${{ needs.release-please.outputs.pr }}"
-          echo "Condition: release_created != 'true' && pr != ''"
-
       - uses: actions/checkout@v4
 
       - name: Build dev version
-        env:
-          PR_JSON: ${{ needs.release-please.outputs.pr }}
         run: |
-          VERSION=$(echo "$PR_JSON" | jq -r '.title' | grep -oP 'release \K[0-9]+\.[0-9]+\.[0-9]+' || echo "0.0.0")
+          # Get version from manifest file
+          VERSION=$(jq -r '."."' .release-please-manifest.json)
           echo "=== DEV BUILD ==="
-          echo "Version: ${VERSION}"
+          echo "Version from manifest: ${VERSION}"
           echo "SHA: ${GITHUB_SHA::7}"
           echo "Tags: dev, dev-${VERSION}, dev-${GITHUB_SHA::7}, build-${VERSION}-${GITHUB_SHA::7}"
           echo ""

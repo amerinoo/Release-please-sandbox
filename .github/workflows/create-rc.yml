@@ -2,12 +2,6 @@ name: Create RC
 
 on:
   workflow_dispatch:
-    inputs:
-      rc_suffix:
-        description: "RC suffix (e.g., RC.1, RC.2)"
-        required: false
-        type: string
-        default: "RC.1"
 
 permissions:
   contents: write
@@ -20,34 +14,59 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Get RC version
+      - name: Calculate RC version
         id: get-version
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Get the open Release Please PR
           PR_NUMBER=$(gh pr list --label "autorelease: pending" --json number --jq '.[0].number')
-          if [ -n "$PR_NUMBER" ]; then
-            # Get the branch name and checkout
-            PR_BRANCH=$(gh pr view $PR_NUMBER --json headRefName --jq '.headRefName')
-            git fetch origin $PR_BRANCH
-            git checkout $PR_BRANCH
-            # Get version from manifest
-            BASE_VERSION=$(jq -r '."."' .release-please-manifest.json)
-            RC_VERSION="${BASE_VERSION}-${{ inputs.rc_suffix }}"
-            
-            echo "base_version=${BASE_VERSION}" >> $GITHUB_OUTPUT
-            echo "rc_version=${RC_VERSION}" >> $GITHUB_OUTPUT
-            echo "pr_branch=${PR_BRANCH}" >> $GITHUB_OUTPUT
-            
-            echo "=== RC VERSION ==="
-            echo "Base version: ${BASE_VERSION}"
-            echo "RC version: ${RC_VERSION}"
-            echo "Branch: ${PR_BRANCH}"
-          else
+          if [ -z "$PR_NUMBER" ]; then
             echo "ERROR: No Release Please PR found"
             exit 1
           fi
+
+          # Get the branch name and checkout
+          PR_BRANCH=$(gh pr view $PR_NUMBER --json headRefName --jq '.headRefName')
+          git fetch origin $PR_BRANCH
+          git checkout $PR_BRANCH
+
+          # Get base version from manifest
+          BASE_VERSION=$(jq -r '."."' .release-please-manifest.json)
+          echo "Base version from manifest: ${BASE_VERSION}"
+
+          # Find existing RC releases for this base version
+          # List all releases and filter by tag pattern v{BASE_VERSION}-RC*
+          EXISTING_RCS=$(gh release list --limit 100 --json tagName,isPrerelease --jq ".[] | select(.isPrerelease == true and (.tagName | startswith(\"v${BASE_VERSION}-RC\"))) | .tagName")
+
+          if [ -z "$EXISTING_RCS" ]; then
+            # No existing RCs for this version, start with RC1
+            RC_NUMBER=1
+            echo "No existing RCs found for version ${BASE_VERSION}"
+          else
+            # Find the highest RC number
+            echo "Existing RCs found:"
+            echo "$EXISTING_RCS"
+            
+            # Extract RC numbers and find the maximum
+            MAX_RC=$(echo "$EXISTING_RCS" | sed -n "s/v${BASE_VERSION}-RC\([0-9]*\)/\1/p" | sort -n | tail -1)
+            RC_NUMBER=$((MAX_RC + 1))
+            echo "Highest existing RC: RC${MAX_RC}"
+          fi
+
+          RC_VERSION="${BASE_VERSION}-RC${RC_NUMBER}"
+
+          echo "base_version=${BASE_VERSION}" >> $GITHUB_OUTPUT
+          echo "rc_version=${RC_VERSION}" >> $GITHUB_OUTPUT
+          echo "rc_number=${RC_NUMBER}" >> $GITHUB_OUTPUT
+          echo "pr_branch=${PR_BRANCH}" >> $GITHUB_OUTPUT
+
+          echo ""
+          echo "=== RC VERSION CALCULATED ==="
+          echo "Base version: ${BASE_VERSION}"
+          echo "RC number: ${RC_NUMBER}"
+          echo "RC version: ${RC_VERSION}"
+          echo "Branch: ${PR_BRANCH}"
 
       - name: Set up JDK 21
         uses: actions/setup-java@v4
@@ -80,13 +99,16 @@ jobs:
           This is a pre-release version for testing purposes.
 
           **Base version:** ${{ steps.get-version.outputs.base_version }}
-          **RC suffix:** ${{ inputs.rc_suffix }}
+          **RC number:** ${{ steps.get-version.outputs.rc_number }}
           **Branch:** ${{ steps.get-version.outputs.pr_branch }}
           **Commit:** ${GITHUB_SHA::7}
 
           ## Build Info
           - Maven: \`mvn clean package -Drevision=${RC_VERSION}\`
           - Docker tags: \`beta\`, \`${RC_VERSION}\`, \`beta-${GITHUB_SHA::7}\`
+
+          ---
+          *RC number automatically calculated based on existing prereleases*
           " \
             --prerelease \
             target/*.jar

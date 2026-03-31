@@ -1,10 +1,10 @@
-name: Create RC (debug)
+name: Create RC
 
 on:
   workflow_dispatch:
     inputs:
       version:
-        description: "RC version, e.g. 1.8.0-RC1"
+        description: "RC version (e.g., 1.8.0-RC.1)"
         required: true
         type: string
 
@@ -19,33 +19,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Debug inputs
+      - name: Build RC version
         run: |
-          echo "=== INPUTS ==="
+          echo "=== RC BUILD ==="
           echo "Version: ${{ inputs.version }}"
           echo "Branch: ${{ github.ref_name }}"
-          echo "SHA: ${{ github.sha }}"
-          echo "Run number: ${{ github.run_number }}"
-
-      - name: Simulate Maven version change
-        run: |
-          echo "=== MAVEN ==="
-          echo "Would run:"
-          echo "mvn versions:set -DnewVersion=${{ inputs.version }}"
-
-      - name: Simulate build
-        run: |
-          echo "=== BUILD ==="
-          echo "Would run: mvn clean package -DskipTests"
-
-      - name: Simulate Docker tags
-        run: |
-          echo "=== DOCKER TAGS ==="
-          echo "beta"
-          echo "${{ inputs.version }}"
-          echo "beta-${GITHUB_SHA::7}"
-
-      - name: Simulate push
-        run: |
-          echo "=== PUSH ==="
-          echo "Would push image with above tags"
+          echo "SHA: ${GITHUB_SHA::7}"
+          echo ""
+          echo "Maven build command:"
+          echo "mvn clean package -Drevision=${{ inputs.version }}"
+          echo ""
+          echo "Docker tags:"
+          echo "  - beta"
+          echo "  - ${{ inputs.version }}"
+          echo "  - beta-${GITHUB_SHA::7}"

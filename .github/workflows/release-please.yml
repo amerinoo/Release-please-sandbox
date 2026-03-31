@@ -25,11 +25,15 @@ jobs:
           token: ${{ secrets.MY_RELEASE_PLEASE_TOKEN }}
 
       - name: Debug outputs
+        env:
+          RELEASE_CREATED: ${{ steps.release.outputs.release_created }}
+          TAG_NAME: ${{ steps.release.outputs.tag_name }}
+          PR: ${{ steps.release.outputs.pr }}
         run: |
           echo "=== RELEASE PLEASE OUTPUTS ==="
-          echo "release_created: ${{ steps.release.outputs.release_created }}"
-          echo "tag_name: ${{ steps.release.outputs.tag_name }}"
-          echo "pr: ${{ steps.release.outputs.pr }}"
+          echo "release_created: ${RELEASE_CREATED}"
+          echo "tag_name: ${TAG_NAME}"
+          echo "pr: ${PR}"
 
   deploy:
     needs: release-please

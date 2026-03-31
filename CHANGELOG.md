@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.6.1](https://github.com/amerinoo/Release-please-sandbox/compare/v1.6.0...v1.6.1) (2026-03-31)
+
+
+### Bug Fixes
+
+* add debug output to test method ([7f97da1](https://github.com/amerinoo/Release-please-sandbox/commit/7f97da1ad0290e77cb8f40d5b5a729865b510e4e))
+* close missing quote in dev build workflow ([1b4ea49](https://github.com/amerinoo/Release-please-sandbox/commit/1b4ea49af22127c5005851b0410ac31ca4b7b721))
+* improve application context initialization ([bd85d0a](https://github.com/amerinoo/Release-please-sandbox/commit/bd85d0aa5ce3a8a7bf29414e8662ab1e552092a6))
+
+
+### Continuous Integration
+
+* update release-please configuration ([34da7c9](https://github.com/amerinoo/Release-please-sandbox/commit/34da7c9d7df491e3e05dd31422d996b196e3e04b))
+* update release-please workflow configuration ([a35c5a0](https://github.com/amerinoo/Release-please-sandbox/commit/a35c5a0c562211f07528b3f17e32a6ebdf4c23e4))
+
 ## [1.6.0](https://github.com/amerinoo/Release-please-sandbox/compare/v1.5.3...v1.6.0) (2026-03-31)
 
 

@@ -24,6 +24,13 @@ jobs:
         with:
           token: ${{ secrets.MY_RELEASE_PLEASE_TOKEN }}
 
+      - name: Debug outputs
+        run: |
+          echo "=== RELEASE PLEASE OUTPUTS ==="
+          echo "release_created: ${{ steps.release.outputs.release_created }}"
+          echo "tag_name: ${{ steps.release.outputs.tag_name }}"
+          echo "pr: ${{ steps.release.outputs.pr }}"
+
   deploy:
     needs: release-please
     runs-on: ubuntu-latest
@@ -44,6 +51,13 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ needs.release-please.outputs.release_created != 'true' && needs.release-please.outputs.pr != '' }}
     steps:
+      - name: Debug condition
+        run: |
+          echo "=== DEV JOB CONDITION CHECK ==="
+          echo "release_created: ${{ needs.release-please.outputs.release_created }}"
+          echo "pr: ${{ needs.release-please.outputs.pr }}"
+          echo "Condition: release_created != 'true' && pr != ''"
+
       - uses: actions/checkout@v4
 
       - name: Build dev version

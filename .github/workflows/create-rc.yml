@@ -113,7 +113,7 @@ jobs:
           **Base version:** ${{ steps.get-version.outputs.base_version }}
           **RC number:** ${{ steps.get-version.outputs.rc_number }}
           **Commit:** ${GITHUB_SHA::7}
-          **Docker tags:** \`beta\`, \`${RC_VERSION}\`, \`beta-${GITHUB_SHA::7}\`
+          **Docker tags:** \`beta\`, \`${RC_VERSION}\`
 
           ---
 

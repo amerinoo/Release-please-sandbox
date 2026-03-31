@@ -108,25 +108,21 @@ jobs:
 
           # Create release notes with proper variable expansion
           cat > /tmp/release_notes.md << EOF
-          🚀 Release Candidate ${RC_VERSION}
-
-          This is a pre-release version for testing purposes.
+          ## 📦 Release Information
 
           **Base version:** ${{ steps.get-version.outputs.base_version }}
           **RC number:** ${{ steps.get-version.outputs.rc_number }}
           **Commit:** ${GITHUB_SHA::7}
+          **Docker tags:** \`beta\`, \`${RC_VERSION}\`, \`beta-${GITHUB_SHA::7}\`
+
+          ---
 
           ${CHANGELOG}
-
-          ## Build Info
-          - Maven: \`mvn clean package -Drevision=${RC_VERSION}\`
-          - Docker tags: \`beta\`, \`${RC_VERSION}\`, \`beta-${GITHUB_SHA::7}\`
-          
           EOF
 
           # Create prerelease
           gh release create ${TAG_NAME} \
-            --title "Release Candidate ${RC_VERSION}" \
+            --title "v${RC_VERSION}" \
             --notes-file /tmp/release_notes.md \
             --prerelease \
             target/*.jar

@@ -18,4 +18,8 @@ public class ReleasePleaseSandboxApplication {
     System.out.println("Result: " + c); // Fixed: added output for debugging
   }
 
+  public String getApplicationInfo() {
+    return "Release Please Sandbox v1.0";
+  }
+
 }

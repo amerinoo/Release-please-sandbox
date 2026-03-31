@@ -14,7 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       release_created: ${{ steps.release.outputs.release_created }}
-      prs_created: ${{ steps.release.outputs.prs_created }}
       tag_name: ${{ steps.release.outputs.tag_name }}
       pr: ${{ steps.release.outputs.pr }}
     steps:
@@ -43,7 +42,7 @@ jobs:
   dev:
     needs: release-please
     runs-on: ubuntu-latest
-    if: ${{ needs.release-please.outputs.prs_created == 'true' && needs.release-please.outputs.release_created != 'true' }}
+    if: ${{ needs.release-please.outputs.release_created != 'true' }}
     steps:
       - uses: actions/checkout@v4
 

@@ -14,7 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       release_created: ${{ steps.release.outputs.release_created }}
-      releases_created: ${{ steps.release.outputs.releases_created }}
       prs_created: ${{ steps.release.outputs.prs_created }}
       tag_name: ${{ steps.release.outputs.tag_name }}
       pr: ${{ steps.release.outputs.pr }}
@@ -26,88 +25,34 @@ jobs:
         with:
           token: ${{ secrets.MY_RELEASE_PLEASE_TOKEN }}
 
-      - name: Debug Release Please Step Outputs
-        env:
-          RELEASE_CREATED: ${{ steps.release.outputs.release_created }}
-          TAG_NAME: ${{ steps.release.outputs.tag_name }}
-          PR: ${{ steps.release.outputs.pr }}
-          PRS_CREATED: ${{ steps.release.outputs.prs_created }}
-          PATHS_RELEASED: ${{ steps.release.outputs.paths_released }}
-          RELEASES_CREATED: ${{ steps.release.outputs.releases_created }}
-        run: |
-          echo "=== RELEASE PLEASE STEP OUTPUTS ==="
-          echo "release_created: ${RELEASE_CREATED}"
-          echo "tag_name: ${TAG_NAME}"
-          echo "pr: ${PR}"
-          echo "prs_created: ${PRS_CREATED}"
-          echo "paths_released: ${PATHS_RELEASED}"
-          echo "releases_created: ${RELEASES_CREATED}"
   deploy:
     needs: release-please
     runs-on: ubuntu-latest
-
+    if: ${{ needs.release-please.outputs.release_created == 'true' }}
     steps:
       - uses: actions/checkout@v4
 
-      - name: Show Release Please Outputs
-        env:
-          RELEASE_CREATED: ${{ needs.release-please.outputs.release_created }}
-          RELEASES_CREATED: ${{ needs.release-please.outputs.releases_created }}
-          PRS_CREATED: ${{ needs.release-please.outputs.prs_created }}
-          TAG_NAME: ${{ needs.release-please.outputs.tag_name }}
-          PR: ${{ needs.release-please.outputs.pr }}
-        run: |
-          echo "=== RELEASE PLEASE JOB OUTPUTS ==="
-          echo "release_created: ${RELEASE_CREATED}"
-          echo "releases_created: ${RELEASES_CREATED}"
-          echo "prs_created: ${PRS_CREATED}"
-          echo "tag_name: ${TAG_NAME}"
-          echo "pr: ${PR}"
-
-      - name: Deploy
-        if: ${{ needs.release-please.outputs.release_created == 'true' }}
+      - name: Deploy to production
         run: |
           TAG="${{ needs.release-please.outputs.tag_name }}"
           VERSION="${TAG#v}"
           echo "=== PROD DEPLOY ==="
           echo "Deploying version: ${VERSION}"
           echo "Tag: ${TAG}"
-          echo "This only runs when the Release Please PR is MERGED and a release is created"
 
   dev:
     needs: release-please
     runs-on: ubuntu-latest
     if: ${{ needs.release-please.outputs.prs_created == 'true' && needs.release-please.outputs.release_created != 'true' }}
-
     steps:
       - uses: actions/checkout@v4
 
-      - name: Extract version from PR
-        id: extract_version
+      - name: Build dev version
         env:
           PR_JSON: ${{ needs.release-please.outputs.pr }}
         run: |
-          # Extract version from PR title (format: "chore(main): release X.Y.Z")
           VERSION=$(echo "$PR_JSON" | jq -r '.title' | grep -oP 'release \K[0-9]+\.[0-9]+\.[0-9]+')
-          echo "version=${VERSION}" >> $GITHUB_OUTPUT
-          echo "Extracted version: ${VERSION}"
-
-      - name: Debug dev build
-        env:
-          VERSION: ${{ steps.extract_version.outputs.version }}
-        run: |
           echo "=== DEV BUILD ==="
           echo "Version: ${VERSION}"
-          echo "SHA: ${{ github.sha }}"
-          echo "Short SHA: ${GITHUB_SHA::7}"
-          echo "Run number: ${{ github.run_number }}"
-
-      - name: Simulate tags
-        env:
-          VERSION: ${{ steps.extract_version.outputs.version }}
-        run: |
-          echo "=== TAGS ==="
-          echo "dev"
-          echo "dev-${VERSION}"
-          echo "dev-${GITHUB_SHA::7}"
-          echo "build-${VERSION}-${GITHUB_SHA::7}"
+          echo "SHA: ${GITHUB_SHA::7}"
+          echo "Tags: dev, dev-${VERSION}, dev-${GITHUB_SHA::7}, build-${VERSION}-${GITHUB_SHA::7}"

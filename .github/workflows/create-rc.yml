@@ -114,22 +114,14 @@ jobs:
 
           **Base version:** ${{ steps.get-version.outputs.base_version }}
           **RC number:** ${{ steps.get-version.outputs.rc_number }}
-          **Branch:** ${{ steps.get-version.outputs.pr_branch }}
           **Commit:** ${GITHUB_SHA::7}
-          **Release Please PR:** #${PR_NUMBER}
+
+          ${CHANGELOG}
 
           ## Build Info
           - Maven: \`mvn clean package -Drevision=${RC_VERSION}\`
           - Docker tags: \`beta\`, \`${RC_VERSION}\`, \`beta-${GITHUB_SHA::7}\`
-
-          ---
-
-          ## 📋 Changelog
-
-          ${CHANGELOG}
-
-          ---
-          *RC number automatically calculated based on existing prereleases*
+          
           EOF
 
           # Create prerelease

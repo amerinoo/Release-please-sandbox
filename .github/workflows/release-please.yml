@@ -84,7 +84,7 @@ jobs:
           echo "=== DEV BUILD ==="
           echo "Version from manifest: ${VERSION}"
           echo "SHA: ${GITHUB_SHA::7}"
-          echo "Tags: dev, dev-${VERSION}, dev-${GITHUB_SHA::7}, build-${VERSION}-${GITHUB_SHA::7}"
+          echo "Tags: dev
           echo ""
           echo "Maven package command:"
           echo "mvn clean package -Drevision=${VERSION}-SNAPSHOT"

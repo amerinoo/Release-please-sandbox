@@ -20,8 +20,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Get version from Release Please PR
-        id: get_version
+      - name: Build RC version
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -35,26 +34,21 @@ jobs:
             # Get version from manifest
             BASE_VERSION=$(jq -r '."."' .release-please-manifest.json)
             RC_VERSION="${BASE_VERSION}-${{ inputs.rc_suffix }}"
-            echo "base_version=${BASE_VERSION}" >> $GITHUB_OUTPUT
-            echo "rc_version=${RC_VERSION}" >> $GITHUB_OUTPUT
-            echo "Found Release Please PR with version: ${BASE_VERSION}"
+            
+            echo "=== RC BUILD ==="
+            echo "Base version: ${BASE_VERSION}"
+            echo "RC version: ${RC_VERSION}"
+            echo "Branch: ${{ github.ref_name }}"
+            echo "SHA: ${GITHUB_SHA::7}"
+            echo ""
+            echo "Maven build command:"
+            echo "mvn clean package -Drevision=${RC_VERSION}"
+            echo ""
+            echo "Docker tags:"
+            echo "  - beta"
+            echo "  - ${RC_VERSION}"
+            echo "  - beta-${GITHUB_SHA::7}"
           else
-            echo "No Release Please PR found, using manual input"
+            echo "ERROR: No Release Please PR found"
             exit 1
           fi
-
-      - name: Build RC version
-        run: |
-          echo "=== RC BUILD ==="
-          echo "Base version: ${{ steps.get_version.outputs.base_version }}"
-          echo "RC version: ${{ steps.get_version.outputs.rc_version }}"
-          echo "Branch: ${{ github.ref_name }}"
-          echo "SHA: ${GITHUB_SHA::7}"
-          echo ""
-          echo "Maven build command:"
-          echo "mvn clean package -Drevision=${{ steps.get_version.outputs.rc_version }}"
-          echo ""
-          echo "Docker tags:"
-          echo "  - beta"
-          echo "  - ${{ steps.get_version.outputs.rc_version }}"
-          echo "  - beta-${GITHUB_SHA::7}"

@@ -64,8 +64,12 @@ jobs:
           echo "pr_branch=${PR_BRANCH}" >> $GITHUB_OUTPUT
           echo "pr_number=${PR_NUMBER}" >> $GITHUB_OUTPUT
 
-          # Save changelog to file to preserve multiline content
-          echo "$PR_BODY" > /tmp/pr_changelog.md
+          # Extract only the changes section from the changelog
+          # Remove header (## [version]) and footer (---\nThis PR was generated...)
+          CHANGES=$(echo "$PR_BODY" | sed -n '/^## \[/,/^---$/p' | sed '1d;$d' | sed '/^---$/d' | sed '/^This PR was generated/,$d')
+
+          # Save filtered changelog to file
+          echo "$CHANGES" > /tmp/pr_changelog.md
 
           echo ""
           echo "=== RC VERSION CALCULATED ==="
@@ -102,8 +106,8 @@ jobs:
           git tag ${TAG_NAME}
           git push origin ${TAG_NAME}
 
-          # Create release notes
-          cat > /tmp/release_notes.md << 'EOF'
+          # Create release notes with proper variable expansion
+          cat > /tmp/release_notes.md << EOF
           🚀 Release Candidate ${RC_VERSION}
 
           This is a pre-release version for testing purposes.
@@ -115,20 +119,14 @@ jobs:
           **Release Please PR:** #${PR_NUMBER}
 
           ## Build Info
-          - Maven: `mvn clean package -Drevision=${RC_VERSION}`
-          - Docker tags: `beta`, `${RC_VERSION}`, `beta-${GITHUB_SHA::7}`
+          - Maven: \`mvn clean package -Drevision=${RC_VERSION}\`
+          - Docker tags: \`beta\`, \`${RC_VERSION}\`, \`beta-${GITHUB_SHA::7}\`
 
           ---
 
           ## 📋 Changelog
 
-          EOF
-
-          # Append changelog
-          echo "$CHANGELOG" >> /tmp/release_notes.md
-
-          # Add footer
-          cat >> /tmp/release_notes.md << 'EOF'
+          ${CHANGELOG}
 
           ---
           *RC number automatically calculated based on existing prereleases*
